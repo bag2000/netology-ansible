@@ -8,6 +8,7 @@ RUN apt-get update && apt-get install -y python3
 EOF
 
 docker build ./ubuntu-docker --file ./ubuntu-docker/Dockerfile --tag ubuntu-py:latest
+rm -fr ./ubuntu-docker
 
 docker run -d --name=centos7 --rm centos:centos7 tail -f
 docker run -d --name=ubuntu --rm ubuntu-py:latest tail -f

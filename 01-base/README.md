@@ -333,7 +333,8 @@ localhost                  : ok=3    changed=0    unreachable=0    failed=0    s
 ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
 ```
 4. Добавьте новую группу хостов `fedora`, самостоятельно придумайте для неё переменную. В качестве образа можно использовать [этот вариант](https://hub.docker.com/r/pycontribs/fedora).
-5. Напишите скрипт на bash: автоматизируйте поднятие необходимых контейнеров, запуск ansible-playbook и остановку контейнеров.
+5. Напишите скрипт на bash: автоматизируйте поднятие необходимых контейнеров, запуск ansible-playbook и остановку контейнеров.  
+[Script](https://github.com/bag2000/netology-ansible/blob/main/01-base/playbook/start.sh)  
 ```
 adm2@srv1:~/08-ansible/01-base/playbook$ ./start.sh
 [+] Building 0.8s (6/6) FINISHED                                                                                                                                                                         docker:default
