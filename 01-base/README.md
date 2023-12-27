@@ -275,10 +275,131 @@ ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    s
 ## Необязательная часть
 
 1. При помощи `ansible-vault` расшифруйте все зашифрованные файлы с переменными.
+```
+adm2@srv1:~/08-ansible/01-base$ ansible-vault decrypt playbook/group_vars/deb/examp.yml
+Vault password: 
+Decryption successful
+adm2@srv1:~/08-ansible/01-base$ ansible-vault decrypt playbook/group_vars/el/examp.yml
+Vault password: 
+Decryption successful
+```
 2. Зашифруйте отдельное значение `PaSSw0rd` для переменной `some_fact` паролем `netology`. Добавьте полученное значение в `group_vars/all/exmp.yml`.
+```
+!vault |
+          $ANSIBLE_VAULT;1.1;AES256
+          65363433663731353265356165363535336365333861643764313335383361623935336163613337
+          3430373461336439356438376666306565616663343139330a653931663538353138653035626530
+          64663836393738393033323930303332376263346233643934663563383962343930633937623336
+          3930613538333037340a386338386230663432373362656565316333323063323632386531313431
+          6561
+```
 3. Запустите `playbook`, убедитесь, что для нужных хостов применился новый `fact`.
+```
+adm2@srv1:~/08-ansible/01-base/playbook$ ansible-playbook site.yml -i inventory/prod.yml --ask-vault-pass
+Vault password: 
+
+PLAY [Print os facts] ************************************************************************************************************************************************************
+
+TASK [Gathering Facts] ***********************************************************************************************************************************************************
+ok: [localhost]
+ok: [ubuntu]
+ok: [centos7]
+
+TASK [Print OS] ******************************************************************************************************************************************************************
+ok: [centos7] => {
+    "msg": "CentOS"
+}
+ok: [ubuntu] => {
+    "msg": "Ubuntu"
+}
+ok: [localhost] => {
+    "msg": "Ubuntu"
+}
+
+TASK [Print fact] ****************************************************************************************************************************************************************
+ok: [centos7] => {
+    "msg": "el default fact"
+}
+ok: [ubuntu] => {
+    "msg": "deb default fact"
+}
+ok: [localhost] => {
+    "msg": "PaSSw0rd"
+}
+
+PLAY RECAP ***********************************************************************************************************************************************************************
+centos7                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0
+```
 4. Добавьте новую группу хостов `fedora`, самостоятельно придумайте для неё переменную. В качестве образа можно использовать [этот вариант](https://hub.docker.com/r/pycontribs/fedora).
 5. Напишите скрипт на bash: автоматизируйте поднятие необходимых контейнеров, запуск ansible-playbook и остановку контейнеров.
+```
+adm2@srv1:~/08-ansible/01-base/playbook$ ./start.sh
+[+] Building 0.8s (6/6) FINISHED                                                                                                                                                                         docker:default
+ => [internal] load build definition from Dockerfile                                                                                                                                                               0.1s
+ => => transferring dockerfile: 105B                                                                                                                                                                               0.0s
+ => [internal] load .dockerignore                                                                                                                                                                                  0.1s
+ => => transferring context: 2B                                                                                                                                                                                    0.0s
+ => [internal] load metadata for docker.io/library/ubuntu:latest                                                                                                                                                   0.5s
+ => [1/2] FROM docker.io/library/ubuntu:latest@sha256:6042500cf4b44023ea1894effe7890666b0c5c7871ed83a97c36c76ae560bb9b                                                                                             0.0s
+ => => resolve docker.io/library/ubuntu:latest@sha256:6042500cf4b44023ea1894effe7890666b0c5c7871ed83a97c36c76ae560bb9b                                                                                             0.0s
+ => CACHED [2/2] RUN apt-get update && apt-get install -y python3                                                                                                                                                  0.0s
+ => exporting to image                                                                                                                                                                                             0.0s
+ => => exporting layers                                                                                                                                                                                            0.0s
+ => => writing image sha256:583bc88041d3ac237bac8305d11c1191ecabc0637c91e3eeaf8517b7313140dc                                                                                                                       0.0s
+ => => naming to docker.io/library/ubuntu-py:latest                                                                                                                                                                0.0s
+b21d2712996c9e066ed47a810e541fe1dda1562beb47789dda27be7779589fe8
+31474bf0cd60f11bd263ec8c1347258f8d5bc4418ba64560705989919d102d78
+ca0fbbd61d183fee5cc89042fbab6cef44cdd9f232a70c0b2ae515f258bf5230
+
+PLAY [Print os facts] **************************************************************************************************************************************************************************************************
+
+TASK [Gathering Facts] *************************************************************************************************************************************************************************************************
+ok: [localhost]
+ok: [ubuntu]
+ok: [fedora]
+ok: [centos7]
+
+TASK [Print OS] ********************************************************************************************************************************************************************************************************
+ok: [centos7] => {
+    "msg": "CentOS"
+}
+ok: [ubuntu] => {
+    "msg": "Ubuntu"
+}
+ok: [fedora] => {
+    "msg": "Fedora"
+}
+ok: [localhost] => {
+    "msg": "Ubuntu"
+}
+
+TASK [Print fact] ******************************************************************************************************************************************************************************************************
+ok: [centos7] => {
+    "msg": "el default fact"
+}
+ok: [ubuntu] => {
+    "msg": "deb default fact"
+}
+ok: [fedora] => {
+    "msg": "fe default fact"
+}
+ok: [localhost] => {
+    "msg": "PaSSw0rd"
+}
+
+PLAY RECAP *************************************************************************************************************************************************************************************************************
+centos7                    : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+fedora                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+localhost                  : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+ubuntu                     : ok=3    changed=0    unreachable=0    failed=0    skipped=0    rescued=0    ignored=0   
+
+centos7
+ubuntu
+fedora
+/home/adm2/08-ansible/01-base/playbook
+```
 6. Все изменения должны быть зафиксированы и отправлены в ваш личный репозиторий.
 
 ---
