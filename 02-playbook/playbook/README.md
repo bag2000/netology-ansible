@@ -32,4 +32,4 @@ inventory/prod.yml
 
 ### Установка
 
-ansible-playbook site.yml -i inventory/prod.yml
+ansible-playbook site.yml -i inventory/prod.yml  
