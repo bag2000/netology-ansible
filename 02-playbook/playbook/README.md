@@ -14,14 +14,15 @@
   
 ### Конфигурация
 
-**Clickhouse**
+**Clickhouse**  
 group_vars/clickhouse/vars.yml:  
 - clickhouse_version: версия clickhouse  
 - clickhouse_packages: пакеты для установки  
 
-**Vector**
+**Vector**  
 group_vars/vector/vars.yml:  
 - vector_version: версия vector  
+  
 Конфигурационный файл vector расположен в templates/vector.yaml. При установке копируется в /etc/vector/vector.yaml  
 
 **Хосты для установки**
@@ -31,4 +32,4 @@ inventory/prod.yml
 
 ### Установка
 
-nsible-playbook site.yml -i inventory/prod.yml
+ansible-playbook site.yml -i inventory/prod.yml
