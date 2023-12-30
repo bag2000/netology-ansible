@@ -2,14 +2,16 @@
 Репозиторий [ClickHouse](https://clickhouse.com) и [Vector](https://vector.dev) Ansible-Playbook
 
 ### Требования
-
-**Control node**
+  
+**Control node**  
+  
 - Ansible 2.15.6+  
 - Python 3.10.12+  
 - Jinja 3.1.2+  
-**Managed nodes** 
+  
+**Managed nodes**  
 - Операционная система CentOS  
-
+  
 ### Конфигурация
 
 **Clickhouse**
