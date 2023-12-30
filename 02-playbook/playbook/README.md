@@ -6,7 +6,7 @@
 **Control node**
 - Ansible 2.15.6+  
 - Python 3.10.12+  
-- Jinja 3.1.2+ 
+- Jinja 3.1.2+  
 **Managed nodes** 
 - Операционная система CentOS  
 
