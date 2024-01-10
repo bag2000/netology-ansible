@@ -1,0 +1,19 @@
+---
+clickhouse:
+  hosts:
+    clickhouse-01:
+      ansible_ssh_host: 158.160.19.130
+      ansible_ssh_user: adm2
+      ansible_connection: ssh
+vector:
+  hosts:
+    vector-01:
+      ansible_ssh_host: 62.84.120.168
+      ansible_ssh_user: adm2
+      ansible_connection: ssh
+lighthouse:
+  hosts:
+    lighthouse-01:
+      ansible_ssh_host: 51.250.19.133
+      ansible_ssh_user: adm2
+      ansible_connection: ssh 
